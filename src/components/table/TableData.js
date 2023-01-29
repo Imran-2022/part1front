@@ -1,11 +1,17 @@
+import { useDispatch } from 'react-redux';
 import { useDeleteBillMutation } from '../../features/api/apiSlice';
+import { addModelEditBill } from '../../features/modal/modalSlice';
 const TableData = ({ billing }) => {
     const { _id, name, email, phone, payableAmount } = billing || {};
-
+    const dispatch=useDispatch();
     const [deleteBil] = useDeleteBillMutation();
 
     const handleDelete = (id) => {
         deleteBil(id);
+    }
+
+    const handleEditBill=(billing)=>{
+        dispatch(addModelEditBill(billing))
     }
    
     return (
@@ -27,7 +33,7 @@ const TableData = ({ billing }) => {
                     {payableAmount}
                 </td>
                 <td className="px-6 py-3 flex flex-wrap gap-2">
-                    <p className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Edit</p>
+                    <p onClick={()=>handleEditBill(billing)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Edit</p>
                     <p>|</p>
                     <p className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer" onClick={() => handleDelete(_id)}>Delete</p>
                 </td>

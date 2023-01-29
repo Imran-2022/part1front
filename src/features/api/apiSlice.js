@@ -38,10 +38,10 @@ export const apiSlice = createApi({
             invalidatesTags: ["billingss"],
         }),
         editBill: builder.mutation({
-            query: ({ id, inputs }) => ({
+            query: ({ id, data }) => ({
                 url: `/update-billing/${id}`,
                 method: "PUT",
-                body: inputs,
+                body: data,
             }),
             // invalidatesTags: ["billingss"],
             invalidatesTags: (result, error, arg) => [

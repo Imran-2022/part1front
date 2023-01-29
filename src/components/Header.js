@@ -27,10 +27,12 @@ const Header = () => {
                         <div className="flex md:order-2"><Link to="/login"><button type="button" className="rounded text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium text-sm px-5 py-2.5 text-center mr-3 md:mr-0 ">LogIn</button></Link>
                         </div>  
                     }
-
-                    <div>
+                    {
+                        useAuth() &&  <div>
                         <p>Total Paid : {'amount'}</p>
-                    </div>
+                        </div>
+                    }
+
                 </div>
             </nav>
         </div>
