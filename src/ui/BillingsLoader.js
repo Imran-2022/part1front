@@ -1,33 +1,30 @@
 import React from 'react';
 
-const TableData = ({billing}) => {
-    const {_id,name,email,phone,payableAmount}=billing||{};
+const BillingsLoader = () => {
     return (
         <tbody>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <th scope="row" className="px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {_id}
+                    Loading ......
                 </th>
                 <td className="px-6 py-3">
-                    {name}
+                Loading ......
                 </td>
                 <td className="px-6 py-3">
-                    {email}
+                Loading ......
                 </td>
                 <td className="px-6 py-3">
-                    {phone}
+                Loading ......
                 </td>
                 <td className="px-6 py-3">
-                    {payableAmount}
+                Loading ......
                 </td>
-                <td className="px-6 py-3 flex flex-wrap gap-2">
-                    <p className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Edit</p>
-                    <p>|</p>
-                    <p className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Delete</p>
+                <td className="px-6 py-3">
+                Loading ......
                 </td>
             </tr>
         </tbody>
     );
 };
 
-export default TableData;
+export default BillingsLoader;

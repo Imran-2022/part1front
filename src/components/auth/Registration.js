@@ -29,7 +29,7 @@ const Registration = () => {
 
                     <label className="font-semibold text-xs" htmlFor="usernameField">User name</label>
                     <input className="flex items-center h-12 px-4 w-64 border shadow mt-2 rounded focus:outline-none focus:ring-2" type="text" name="name" value={inputs.name} onChange={handleChange} required />
-
+                    
                     <label className="font-semibold text-xs mt-3" htmlFor="useremailField">User Email</label>
                     <input className="flex items-center h-12 px-4 w-64 border shadowmt-2 rounded focus:outline-none focus:ring-2" type="email" name="email" value={inputs.email} onChange={handleChange} required />
 
