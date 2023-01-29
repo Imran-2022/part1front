@@ -1,16 +1,12 @@
-import { useEffect } from "react";
 import { useDeleteBillMutation } from '../../features/api/apiSlice';
 const TableData = ({ billing }) => {
     const { _id, name, email, phone, payableAmount } = billing || {};
 
-    const [deleteBil,{isError}] = useDeleteBillMutation();
+    const [deleteBil] = useDeleteBillMutation();
 
     const handleDelete = (id) => {
         deleteBil(id);
     }
-    useEffect(()=>{
-        if(isError) alert("Erorr occur 🐸!")
-    },[isError])
    
     return (
         <tbody>
