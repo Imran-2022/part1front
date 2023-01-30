@@ -1,17 +1,9 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { BsArrowRightSquare,BsArrowLeftSquare } from 'react-icons/bs';
-import { useGetTotalOfBillMutation } from '../features/api/apiSlice';
 import { setPage } from '../features/pagination/paginationSlice';
+import { useGetTotalOfBillQuery } from '../features/api/apiSlice';
 export default function Pagination() {
-
-  const [getTotalOfBill, { data, isLoading, error: responseError, isSuccess }] = useGetTotalOfBillMutation();
-
-  useEffect(() => {
-    getTotalOfBill()
-  }, [getTotalOfBill])
-
+  useGetTotalOfBillQuery()
   const {
     pagination: { totalCount, currentPage, limit },
   } = useSelector((state) => state.pagination);

@@ -13,7 +13,7 @@ export const apiSlice = createApi({
             return headers;
         }
     }),
-    tagTypes: ['billingss', 'bill', 'billings'],
+    tagTypes: ['billingss', 'bill', 'billings','billingsadd','billingsTotal'],
     endpoints: (builder) => ({
         getBillings: builder.query({
             query: (argu) => {
@@ -55,7 +55,8 @@ export const apiSlice = createApi({
                 method: 'POST',
                 body: data
             }),
-            invalidatesTags: ["billingss"],
+            providesTags: ["billingsadd"],
+            invalidatesTags: ["billingss","billingsTotal"],
         }),
         editBill: builder.mutation({
             query: ({ id, data }) => ({
@@ -63,6 +64,7 @@ export const apiSlice = createApi({
                 method: "PUT",
                 body: data,
             }),
+           
             invalidatesTags: ["billingss"],
             // invalidatesTags: (result, error, arg) => [
             //     "billingss", { type: "bill", _id: arg.id }
@@ -73,13 +75,16 @@ export const apiSlice = createApi({
                 url: `/delete-billing/${id}`,
                 method: "DELETE",
             }),
+            // invalidatesTags: ["billingss","billingsTotal"],
             invalidatesTags: ["billingss"],
         }),
-        getTotalOfBill: builder.mutation({
+        getTotalOfBill: builder.query({
             query: () => ({
                 url: `/billing-list/total`,
                 method: "GET",
             }),
+            providesTags: ["billingsTotal"],
+            invalidatesTags: ["billingss","billingsadd"],
             async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
                     const result = await queryFulfilled;
@@ -94,4 +99,4 @@ export const apiSlice = createApi({
 
 });
 
-export const { useGetBillingsQuery, useGetBillingQuery, useGetSearchListQuery, useAddBillingMutation, useEditBillMutation, useDeleteBillMutation, useGetTotalOfBillMutation } = apiSlice;
+export const { useGetBillingsQuery, useGetBillingQuery, useGetSearchListQuery, useAddBillingMutation, useEditBillMutation, useDeleteBillMutation, useGetTotalOfBillQuery } = apiSlice;

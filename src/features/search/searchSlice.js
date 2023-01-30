@@ -1,16 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    pagination: {
-        currentPage: 1,
-        limit: 10,
-        totalCount: 1,
-    },
-    paginatedData:[],
+    searchKey:undefined,
+    searchResult:undefined,
 };
 
-const paginationSlice = createSlice({
-    name: "pagination",
+const searchSlice = createSlice({
+    name: "search",
     initialState,
     reducers: {
         setPage: (state, action) => {
@@ -25,5 +21,5 @@ const paginationSlice = createSlice({
     },
 });
 
-export const {setPage,setTotalCount,addpaginatedData } = paginationSlice.actions;
-export default paginationSlice.reducer;
+export const {setPage,setTotalCount,addpaginatedData } = searchSlice.actions;
+export default searchSlice.reducer;
