@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import powerHack from "../assets/logo/power-hack.svg"
+import { useGetTotalPaidQuery } from '../features/api/apiSlice';
 import { userLoggedOut } from '../features/auth/authSlice';
 import useAuth from './hooks/useAuth';
 const Header = () => {
@@ -10,6 +11,12 @@ const Header = () => {
         dispatch(userLoggedOut());
         localStorage.removeItem('auth');
     }
+
+
+    // get total - 
+
+    const {data,isSuccess,isError,isLoading}=useGetTotalPaidQuery()
+
     return (
         <div className="w-10/12 m-auto p-2">
             <nav className="bg-white px-2 py-2.5 w-full">
@@ -29,7 +36,7 @@ const Header = () => {
                     }
                     {
                         useAuth() &&  <div>
-                        <p>Total Paid : {'amount'}</p>
+                        <p>Total Paid : {(data?.total) ? (data?.total):0}</p>
                         </div>
                     }
 

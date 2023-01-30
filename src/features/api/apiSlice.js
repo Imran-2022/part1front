@@ -56,7 +56,7 @@ export const apiSlice = createApi({
                 body: data
             }),
             providesTags: ["billingsadd"],
-            invalidatesTags: ["billingss","billingsTotal"],
+            invalidatesTags: ["billingss","billingsTotal","totalPaid"],
         }),
         editBill: builder.mutation({
             query: ({ id, data }) => ({
@@ -65,7 +65,7 @@ export const apiSlice = createApi({
                 body: data,
             }),
            
-            invalidatesTags: ["billingss"],
+            invalidatesTags: ["billingss","totalPaid"],
             // invalidatesTags: (result, error, arg) => [
             //     "billingss", { type: "bill", _id: arg.id }
             // ],
@@ -75,7 +75,7 @@ export const apiSlice = createApi({
                 url: `/delete-billing/${id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ["billingss","billingsTotal"],
+            invalidatesTags: ["billingss","billingsTotal","totalPaid"],
         }),
         getTotalOfBill: builder.query({
             query: () => ({
@@ -93,9 +93,13 @@ export const apiSlice = createApi({
                     // do nothing
                 }
             },
+        }),
+        getTotalPaid:builder.query({
+            query: () => `/billing-list/totalPaid`,
+            providesTags: ['totalPaid']
         })
     }),
 
 });
 
-export const { useGetBillingsQuery, useGetBillingQuery, useGetSearchListQuery, useAddBillingMutation, useEditBillMutation, useDeleteBillMutation, useGetTotalOfBillQuery } = apiSlice;
+export const { useGetBillingsQuery, useGetBillingQuery, useGetSearchListQuery, useAddBillingMutation, useEditBillMutation, useDeleteBillMutation, useGetTotalOfBillQuery,useGetTotalPaidQuery } = apiSlice;
