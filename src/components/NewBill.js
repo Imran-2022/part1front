@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAddBillingMutation, useEditBillMutation, useGetBillingQuery } from '../features/api/apiSlice';
-import { addModalNewBill } from '../features/modal/modalSlice';
+import { addModalNewBill,removeModelEditBill } from '../features/modal/modalSlice';
 import Modal from './Modal';
 
 const NewBill = () => {
@@ -36,17 +36,28 @@ const NewBill = () => {
         console.log(inputs)
     }
 
+   
+
     const { name, email, phone, payableAmount } = inputs;
 
 
     // Now Update 🐸.....
 
-    const [editBills, { data: editB }] = useEditBillMutation()
+    const [editBills, { data: editB,isSuccess:editSuccess,isLoading:editLoading }] = useEditBillMutation()
 
     const handleUpdate = (id) => {
         const {name,email,phone,payableAmount}=updateBill
         editBills({ id,data:{name,email,phone,payableAmount}})
     }
+
+    useEffect(()=>{
+        if(addSuccess) dispatch(removeModelEditBill())
+    },[addSuccess,dispatch])
+
+    useEffect(()=>{
+        if(editSuccess) dispatch(removeModelEditBill())
+    },[editSuccess,dispatch])
+
 
     return (
         <>
@@ -72,7 +83,7 @@ const NewBill = () => {
                             <input type="number" name="payableAmount" id="payableAmount" placeholder="payableAmount.." className="bg-gray-50 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white border-2  border-gray-300  rounded  focus:outline-none " value={updateBill ? updateBill.payableAmount : payableAmount} onChange={handleChange} required />
                         </div>
                         {
-                            (editBill.name&& editBill.email&& editBill.phone)? <button onClick={()=>handleUpdate(editBill._id)} className="w-full rounded text-black bg-blue-300 focus:outline-none font-medium text-sm px-5 py-2.5 text-center mr-3 md:mr-0 ">Update/Edit Bill</button>: <button onClick={handleAddBill} className="w-full rounded text-black bg-blue-300 focus:outline-none font-medium text-sm px-5 py-2.5 text-center mr-3 md:mr-0 ">Add New Bill</button>
+                            (editBill.name&& editBill.email&& editBill.phone)? <button disabled={editLoading} onClick={()=>handleUpdate(editBill._id)} className="w-full rounded text-black bg-blue-300 focus:outline-none font-medium text-sm px-5 py-2.5 text-center mr-3 md:mr-0 ">Update/Edit Bill</button>: <button disabled={adLoading} onClick={handleAddBill} className="w-full rounded text-black bg-blue-300 focus:outline-none font-medium text-sm px-5 py-2.5 text-center mr-3 md:mr-0 ">Add New Bill</button>
                         }
 
                     </form>

@@ -64,7 +64,7 @@ const LogIn = () => {
                         <span className="mx-2 text-gray-300">/</span>
                         <Link to="/registration" className="text-blue-400 hover:text-blue-500" href="#">Register</Link>
                     </div>
-                    {error !== "" && <Error message={error} />}
+                    {error !== "" && <p>{error}</p>}
                 </form>
             </div>
         </Layout>

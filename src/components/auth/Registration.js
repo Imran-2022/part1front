@@ -75,7 +75,7 @@ const Registration = () => {
                         <span className="mx-2 text-gray-300">/</span>
                         <Link to="/login" className="text-blue-400 hover:text-blue-500" href="#">Login</Link>
                     </div>
-                    {error !== "" && <Error message={error} />}
+                    {error !== "" && <p>{error}</p>}
                 </form>
             </div>
         </Layout>
