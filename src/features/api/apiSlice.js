@@ -2,32 +2,36 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { addpaginatedData, setTotalCount } from "../pagination/paginationSlice";
 
 export const apiSlice = createApi({
-    
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
         baseUrl: `${process.env.REACT_APP_API_URL}`,
-        prepareHeaders: async(headers,{getState,endpoint})=>{
-            const token=getState()?.auth?.token;
-            if(token){
-                headers.set("Authorization",`Bearer ${token}`);
+        prepareHeaders: async (headers, { getState, endpoint }) => {
+            const token = getState()?.auth?.token;
+            if (token) {
+                headers.set("Authorization", `Bearer ${token}`);
             }
             return headers;
         }
     }),
-    tagTypes: ['billingss', 'bill'],
+    tagTypes: ['billingss', 'bill', 'billings'],
     endpoints: (builder) => ({
-        getBillings: builder.mutation({
-            query: ({currentPage,limit}) => ({
-                url:`/billing-list?currentPage=${currentPage}&limit=${limit}`,
-                method: "GET",
-                keepUnusedDataFor: 600,
-               
-            }),
+        getBillings: builder.query({
+            query: (argu) => {
+                const { currentPage, limit } = argu;
+                return {
+                    url: `/billing-list`,
+                    method: "GET",
+                    // currentPage,limit
+                    params: { currentPage, limit },
+                    keepUnusedDataFor: 600,
+                }
+
+            },
             providesTags: ["billingss"],
             async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
                     const result = await queryFulfilled;
-                    console.log("result",result?.data)
+                    console.log("result", result?.data)
                     dispatch(addpaginatedData(result?.data))
 
                 } catch (err) {
@@ -39,7 +43,7 @@ export const apiSlice = createApi({
         getBilling: builder.query({
             query: (id) => `/billing-list/${id}`,
             providesTags: (result, error, arg) => [
-                "billingss", { type: "bill", _id: arg }
+                "billings", { type: "bill", _id: arg }
             ],
         }),
         getSearchList: builder.query({
@@ -59,10 +63,10 @@ export const apiSlice = createApi({
                 method: "PUT",
                 body: data,
             }),
-            // invalidatesTags: ["billingss"],
-            invalidatesTags: (result, error, arg) => [
-                "billingss", { type: "bill", _id: arg.id }
-            ],
+            invalidatesTags: ["billingss"],
+            // invalidatesTags: (result, error, arg) => [
+            //     "billingss", { type: "bill", _id: arg.id }
+            // ],
         }),
         deleteBill: builder.mutation({
             query: (id) => ({
@@ -90,4 +94,4 @@ export const apiSlice = createApi({
 
 });
 
-export const { useGetBillingsMutation, useGetBillingQuery, useGetSearchListQuery, useAddBillingMutation, useEditBillMutation,useDeleteBillMutation,useGetTotalOfBillMutation } = apiSlice;
+export const { useGetBillingsQuery, useGetBillingQuery, useGetSearchListQuery, useAddBillingMutation, useEditBillMutation, useDeleteBillMutation, useGetTotalOfBillMutation } = apiSlice;

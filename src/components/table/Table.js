@@ -4,18 +4,15 @@ import TableHeader from './TableHeader';
 import BillingsLoader from '../../ui/BillingsLoader';
 import Error from '../../ui/Error';
 import { useSelector } from 'react-redux';
-import { useGetBillingsMutation } from '../../features/api/apiSlice';
+import { useGetBillingsQuery } from '../../features/api/apiSlice';
 
 const Table = () => {
 
-    const [getBillingsdata,{ data: billings, isLoading, isError }] = useGetBillingsMutation();
-    const {pagination: { currentPage, limit },paginatedData} = useSelector((state) => state.pagination);
+    const { pagination: { currentPage, limit }, paginatedData } = useSelector((state) => state.pagination);
 
-    console.log(currentPage, limit,paginatedData)
-    useEffect(()=>{
-        getBillingsdata({currentPage, limit})
-    },[currentPage,getBillingsdata,limit])
-    // decide what to render 🐸
+    console.log(currentPage, limit, paginatedData)
+    const argu={currentPage,limit}
+    const  { data: billings, isLoading, isError } = useGetBillingsQuery(argu);
 
     let content = null;
     if (isLoading) {
@@ -42,12 +39,12 @@ const Table = () => {
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <TableHeader />
                     {
-                        paginatedData.map(billing => <TableData billing={billing} key={billing._id} />)
+                        billings.map(billing => <TableData billing={billing} key={billing._id} />)
                     }
                 </table>
             </>
     }
-    
+
     return (
         <div className="w-full m-auto px-2">
             <div className="overflow-x-auto shadow sm:rounded-lg">
