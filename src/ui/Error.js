@@ -2,7 +2,7 @@ import React from 'react';
 
 const Error = ({message}) => {
     return (
-        <div>
+        <div className='h-[50vh] flex justify-center items-center'>
             <p>{message}</p>
         </div>
     );

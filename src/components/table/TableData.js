@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeleteBillMutation } from '../../features/api/apiSlice';
 import { addModelEditBill } from '../../features/modal/modalSlice';
-import { setPage } from '../../features/search/searchSlice';
 const TableData = ({ billing }) => {
     const { _id, name, email, phone, payableAmount } = billing || {};
     const dispatch=useDispatch();
@@ -10,13 +9,7 @@ const TableData = ({ billing }) => {
         pagination: { totalCount, currentPage, limit },
       } = useSelector((state) => state.pagination);
     const handleDelete = (id) => {
-        if(totalCount==11){
             deleteBil(id);
-            dispatch(setPage(1))
-        }else{
-            deleteBil(id);
-
-        }
     }
 
     const handleEditBill=(billing)=>{

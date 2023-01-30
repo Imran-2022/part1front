@@ -30,7 +30,7 @@ const Table = () => {
     }
 
     if (!isLoading && !isError && billings?.length === 0) {
-        content = <Error message="No videos found !" />
+        content = <Error message="No Bills in this page check other page !" />
 
     }
     if (!isLoading && !isError && billings?.length > 0) {

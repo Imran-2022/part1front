@@ -75,8 +75,7 @@ export const apiSlice = createApi({
                 url: `/delete-billing/${id}`,
                 method: "DELETE",
             }),
-            // invalidatesTags: ["billingss","billingsTotal"],
-            invalidatesTags: ["billingss"],
+            invalidatesTags: ["billingss","billingsTotal"],
         }),
         getTotalOfBill: builder.query({
             query: () => ({
