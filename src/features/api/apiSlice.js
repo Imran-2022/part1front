@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { addpaginatedData, setTotalCount } from "../pagination/paginationSlice";
 
 export const apiSlice = createApi({
     
@@ -15,11 +16,26 @@ export const apiSlice = createApi({
     }),
     tagTypes: ['billingss', 'bill'],
     endpoints: (builder) => ({
-        getBillings: builder.query({
-            query: () => '/billing-list',
-            keepUnusedDataFor: 600,
-            providesTags: ["billingss"]
+        getBillings: builder.mutation({
+            query: ({currentPage,limit}) => ({
+                url:`/billing-list?currentPage=${currentPage}&limit=${limit}`,
+                method: "GET",
+                keepUnusedDataFor: 600,
+               
+            }),
+            providesTags: ["billingss"],
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                try {
+                    const result = await queryFulfilled;
+                    console.log("result",result?.data)
+                    dispatch(addpaginatedData(result?.data))
+
+                } catch (err) {
+                    // do nothing
+                }
+            },
         }),
+
         getBilling: builder.query({
             query: (id) => `/billing-list/${id}`,
             providesTags: (result, error, arg) => [
@@ -55,8 +71,23 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ["billingss"],
         }),
+        getTotalOfBill: builder.mutation({
+            query: () => ({
+                url: `/billing-list/total`,
+                method: "GET",
+            }),
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                try {
+                    const result = await queryFulfilled;
+                    dispatch(setTotalCount(result?.data.total))
+
+                } catch (err) {
+                    // do nothing
+                }
+            },
+        })
     }),
 
 });
 
-export const { useGetBillingsQuery, useGetBillingQuery, useGetSearchListQuery, useAddBillingMutation, useEditBillMutation,useDeleteBillMutation } = apiSlice;
+export const { useGetBillingsMutation, useGetBillingQuery, useGetSearchListQuery, useAddBillingMutation, useEditBillMutation,useDeleteBillMutation,useGetTotalOfBillMutation } = apiSlice;

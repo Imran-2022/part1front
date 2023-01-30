@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TableData from './TableData';
 import TableHeader from './TableHeader';
-import { useGetBillingsQuery } from '../../features/api/apiSlice';
 import BillingsLoader from '../../ui/BillingsLoader';
 import Error from '../../ui/Error';
+import { useSelector } from 'react-redux';
+import { useGetBillingsMutation } from '../../features/api/apiSlice';
 
 const Table = () => {
 
-    const { data: billings, isLoading, isError } = useGetBillingsQuery();
+    const [getBillingsdata,{ data: billings, isLoading, isError }] = useGetBillingsMutation();
+    const {pagination: { currentPage, limit },paginatedData} = useSelector((state) => state.pagination);
 
+    console.log(currentPage, limit,paginatedData)
+    useEffect(()=>{
+        getBillingsdata({currentPage, limit})
+    },[currentPage,getBillingsdata,limit])
     // decide what to render 🐸
 
     let content = null;
@@ -36,7 +42,7 @@ const Table = () => {
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <TableHeader />
                     {
-                        billings.map(billing => <TableData billing={billing} key={billing._id} />)
+                        paginatedData.map(billing => <TableData billing={billing} key={billing._id} />)
                     }
                 </table>
             </>

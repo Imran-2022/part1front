@@ -11,6 +11,7 @@ const TableData = ({ billing }) => {
     }
 
     const handleEditBill=(billing)=>{
+        
         dispatch(addModelEditBill(billing))
     }
    
